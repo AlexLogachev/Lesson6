@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.IO;
 
 namespace Lesson6
-{
-    public delegate double Fun(double x, double y);
-    public delegate double OneFun(double x);
+{   
     class Program
     {
+        public delegate double Fun(double x, double y);
+        public delegate double OneFun(double x);
+
         public static double F1(double x)
         {
             return x * x - 50 * x + 10;
@@ -36,14 +37,17 @@ namespace Lesson6
             }
             Console.WriteLine("-----------------------");
         }
+
         public static double SinFunc(double a, double x)
         {
             return Math.Sin(x) * a;
         }
+
         public static double MyFunc(double x, double y)
         {
             return y * x * x;
         }
+
         public static void SaveFunc(string fileName, OneFun F, double a, double b, double h)
         {
             FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
@@ -57,6 +61,7 @@ namespace Lesson6
             bw.Close();
             fs.Close();
         }
+
         public static double Load(string fileName)
         {
                 FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
@@ -75,12 +80,14 @@ namespace Lesson6
 
         static void Main(string[] args)
         {
+            double userX = 0;
+            double userY = 0;
+            OneFun[] Func_list = new OneFun[] {F1, F2, F3 };
+          
             Table(new Fun(MyFunc), 1, 3, 5);
             Console.WriteLine();
             Table(SinFunc, -1, 3, 2);
-            Console.WriteLine();
-            var userX = 0;
-            var userY = 0;
+            Console.WriteLine();   
             Console.WriteLine("Put in coordinates for your function");
             userX = int.Parse(Console.ReadLine());
             Console.WriteLine("Put in coordinates for your function");
@@ -89,13 +96,13 @@ namespace Lesson6
             var userFun = int.Parse(Console.ReadLine());
             if (userFun == 1)
             {
-                SaveFunc("data.bin", new OneFun(F1), userX, userY, 1);
+                SaveFunc("data.bin", Func_list[0], userX, userY, 1);
             } else if (userFun == 2)
             {
-                SaveFunc("data.bin", new OneFun(F2), userX, userY, 1);
+                SaveFunc("data.bin", Func_list[1], userX, userY, 1);
             } else if (userFun == 3)
             {
-                SaveFunc("data.bin", new OneFun(F3), userX, userY, 1);
+                SaveFunc("data.bin", Func_list[2], userX, userY, 1);
             } else
             {
                 Console.WriteLine("Uncorrect");
